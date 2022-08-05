@@ -1,0 +1,32 @@
+#
+# Gionee bootlog rc file
+#
+
+service bootlog /sbin/bootlog
+    class core
+    critical
+    disabled
+    user root
+    oneshot
+    group root system
+    seclabel u:r:bootlogd:s0
+service shutdownlog /sbin/shutdownlog
+    class core
+    critical
+    disabled
+    user root
+    oneshot
+    group root system
+    seclabel u:r:shutdownlogd:s0
+on post-fs-data
+    chmod 0775 /cache
+    chmod 0775 /cache/recovery
+  
+on property:ro.start.bootlog=1
+    start bootlog
+on property:ro.stop.bootlog=1
+    stop bootlog
+on property:sys.boot_completed=1
+    stop bootlog
+   
+   
